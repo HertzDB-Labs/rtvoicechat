@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LiveKit Test</title>
+    <script src="https://unpkg.com/livekit-client/dist/livekit-client.umd.js"></script>
+</head>
+<body>
+    <h2>LiveKit Connection Test</h2>
+    <button onclick="connect()">Connect</button>
+    <div id="status"></div>
+
+    <script>
+        async function connect() {
+            try {
+                document.getElementById('status').textContent = 'Connecting...';
+                
+                const room = new LivekitClient.Room({
+                    adaptiveStream: true,
+                    dynacast: true,
+                });
+
+                room.on(LivekitClient.RoomEvent.Connected, () => {
+                    document.getElementById('status').textContent = 'Connected to room!';
+                });
+
+                room.on(LivekitClient.RoomEvent.Disconnected, () => {
+                    document.getElementById('status').textContent = 'Disconnected from room';
+                });
+
+                // Using the provided valid token
+                const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTMxOTUxMDIsImlzcyI6ImRldmtleSIsIm5hbWUiOiJ0ZXN0X3VzZXIiLCJuYmYiOjE3NTMxMDg3MDIsInN1YiI6InRlc3RfdXNlciIsInZpZGVvIjp7InJvb20iOiJ0ZXN0X3Jvb20iLCJyb29tSm9pbiI6dHJ1ZX19.waeHi6CtyPed1_AGXWpI_TrPXO50x8RMVp8GctfkvkI';
+
+                await room.connect('ws://localhost:7880', token);
+                console.log('Connected to room:', room.name);
+
+            } catch (error) {
+                document.getElementById('status').textContent = 'Error: ' + error.message;
+                console.error('Connection failed:', error);
+            }
+        }
+    </script>
+</body>
+</html> 
