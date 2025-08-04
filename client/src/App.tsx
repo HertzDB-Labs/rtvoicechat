@@ -33,8 +33,8 @@ function App() {
         console.log('Audio playback status:', playing);
       });
 
-      // Using the verified working token
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjE4Mzg2NzcsImlzcyI6ImRldmtleSIsIm5hbWUiOiJ0ZXN0X3VzZXIiLCJuYmYiOjE3NTMxOTg2NzcsInN1YiI6InRlc3RfdXNlciIsInZpZGVvIjp7InJvb20iOiJ0ZXN0X3Jvb20iLCJyb29tSm9pbiI6dHJ1ZX19.QiAvojO8F5ItaDwxWUd9UhZ6T6fRXSgZNnEx258rCUg';
+      // Using environment variable for token
+      const token = process.env.REACT_APP_LIVEKIT_TOKEN || 'LIVEKIT_TOKEN';
 
       // Connect to the room
       await newRoom.connect('ws://localhost:7880', token);
